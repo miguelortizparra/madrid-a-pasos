@@ -1,0 +1,23 @@
+document.querySelectorAll('.map-canvas,.case-map').forEach((host,index)=>{
+ const svg=host.querySelector('svg');if(!svg)return;
+ const initial=svg.getAttribute('viewBox').trim().split(/\s+/).map(Number);
+ let box=[...initial],drag=null,moved=false;
+ const pointers=new Map();
+ host.classList.add('interactive-map');
+ svg.setAttribute('tabindex','0');svg.setAttribute('aria-label',svg.getAttribute('aria-label')+'. Mapa navegable: más y menos para zoom; flechas para desplazamiento; Inicio para restablecer.');
+ const controls=document.createElement('div');controls.className='zoom-controls';controls.setAttribute('role','group');controls.setAttribute('aria-label','Navegación del mapa '+(index+1));
+ controls.innerHTML='<button type="button" data-zoom="in" aria-label="Acercar mapa" title="Acercar">+</button><button type="button" data-zoom="out" aria-label="Alejar mapa" title="Alejar">−</button><button type="button" data-zoom="reset" aria-label="Restablecer vista" title="Restablecer vista">⌂</button><output aria-live="polite">1×</output>';
+ host.appendChild(controls);
+ const apply=()=>{const z=initial[2]/box[2];box[0]=Math.max(initial[0],Math.min(initial[0]+initial[2]-box[2],box[0]));box[1]=Math.max(initial[1],Math.min(initial[1]+initial[3]-box[3],box[1]));svg.setAttribute('viewBox',box.join(' '));host.dataset.zoom=z.toFixed(2);host.dataset.zoomed=String(z>1.001);controls.querySelector('output').textContent=z.toFixed(z%1?1:0)+'×';controls.querySelector('[data-zoom="in"]').disabled=z>=7.99;controls.querySelector('[data-zoom="out"]').disabled=z<=1.001;};
+ const zoom=(factor,fx=.5,fy=.5)=>{const width=Math.max(initial[2]/8,Math.min(initial[2],box[2]/factor)),height=width*initial[3]/initial[2];box=[box[0]+(box[2]-width)*fx,box[1]+(box[3]-height)*fy,width,height];apply();};
+ const reset=()=>{box=[...initial];apply();};
+ controls.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;if(b.dataset.zoom==='reset')reset();else zoom(b.dataset.zoom==='in'?1.5:1/1.5);});
+ svg.addEventListener('wheel',e=>{if(!e.ctrlKey&&!e.metaKey)return;e.preventDefault();const r=svg.getBoundingClientRect();zoom(e.deltaY<0?1.2:1/1.2,(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height);},{passive:false});
+ svg.addEventListener('keydown',e=>{let handled=true;if(e.key==='+'||e.key==='=')zoom(1.5);else if(e.key==='-')zoom(1/1.5);else if(e.key==='Home')reset();else if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown'].includes(e.key)){box[0]+=e.key==='ArrowLeft'?-box[2]*.12:e.key==='ArrowRight'?box[2]*.12:0;box[1]+=e.key==='ArrowUp'?-box[3]*.12:e.key==='ArrowDown'?box[3]*.12:0;apply();}else handled=false;if(handled)e.preventDefault();});
+ const gesture=()=>{const a=[...pointers.values()];return a.length>1?{x:(a[0].x+a[1].x)/2,y:(a[0].y+a[1].y)/2,d:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y)}:{...a[0],d:0};};
+ svg.addEventListener('pointerdown',e=>{if(e.button!==0)return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});drag=gesture();moved=false;});
+ svg.addEventListener('pointermove',e=>{if(!pointers.has(e.pointerId)||!drag)return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});const g=gesture(),r=svg.getBoundingClientRect();if(Math.hypot(g.x-drag.x,g.y-drag.y)>3||g.d!==drag.d)moved=true;if(moved)svg.setPointerCapture?.(e.pointerId);if(g.d&&drag.d)zoom(g.d/drag.d,(g.x-r.left)/r.width,(g.y-r.top)/r.height);box[0]-=(g.x-drag.x)*box[2]/r.width;box[1]-=(g.y-drag.y)*box[3]/r.height;apply();drag=g;});
+ const release=e=>{pointers.delete(e.pointerId);drag=pointers.size?gesture():null;};svg.addEventListener('pointerup',release);svg.addEventListener('pointercancel',release);
+ svg.addEventListener('click',e=>{if(moved){e.stopImmediatePropagation();moved=false;}},true);
+ const hint=document.createElement('p');hint.className='map-help';hint.textContent='Acerca con + y aleja con −. Tras acercar, arrastra para desplazarte. En móvil puedes usar dos dedos; con la vista inicial, desliza para seguir leyendo.';host.insertAdjacentElement('afterend',hint);apply();
+});

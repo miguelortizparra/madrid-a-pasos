@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?><WMS_Capabilities version="1.3.0" updateSequence="2994" xmlns="http://www.opengis.net/wms" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wms https://servpub.madrid.es/georaster/schemas/wms/1.3.0/capabilities_1_3_0.xsd">
+  <Service>
+    <Name>WMS</Name>
+    <Title>Raster Oficial del Ayuntamiento de Madrid</Title>
+    <Abstract>WMS (Servicio de Mapas Web) es un servicio que proporciona acceso a datos geoespaciales en forma de mapas renderizados a través de internet. Permite a los usuarios recuperar imágenes de mapas de manera dinámica, en formato PNG8, basadas en datos geográficos proporcionados por el servidor. WMS facilita la integración de mapas en aplicaciones web y permite a los usuarios superponer diferentes capas de datos para visualización y análisis.</Abstract>
+    <KeywordList>
+      <Keyword>WMS</Keyword>
+      <Keyword>Ayuntamiento de Madrid</Keyword>
+    </KeywordList>
+    <OnlineResource xlink:type="simple" xlink:href="https://geoportal.madrid.es"/>
+    <ContactInformation>
+      <ContactPersonPrimary>
+        <ContactPerson>Departamento de Geoportal</ContactPerson>
+        <ContactOrganization>Ayuntamiento de Madrid. A.G. Urbanismo, Medio Ambiente y Movilidad</ContactOrganization>
+      </ContactPersonPrimary>
+      <ContactPosition/>
+      <ContactAddress>
+        <AddressType>Work</AddressType>
+        <Address/>
+        <City>Madrid</City>
+        <StateOrProvince>Espa�a</StateOrProvince>
+        <PostCode/>
+        <Country>Espa�a</Country>
+      </ContactAddress>
+      <ContactVoiceTelephone/>
+      <ContactFacsimileTelephone/>
+      <ContactElectronicMailAddress>geoportal@madrid.es</ContactElectronicMailAddress>
+    </ContactInformation>
+    <Fees>NONE</Fees>
+    <AccessConstraints>NONE</AccessConstraints>
+  </Service>
+  <Capability>
+    <Request>
+      <GetCapabilities>
+        <Format>text/xml</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:type="simple" xlink:href="https://servpub.madrid.es/georaster/ORTOFOTOS/ORTOFOTO_MADRID/ows?SERVICE=WMS&amp;"/>
+            </Get>
+            <Post>
+              <OnlineResource xlink:type="simple" xlink:href="https://servpub.madrid.es/georaster/ORTOFOTOS/ORTOFOTO_MADRID/ows?SERVICE=WMS&amp;"/>
+            </Post>
+          </HTTP>
+        </DCPType>
+      </GetCapabilities>
+      <GetMap>
+        <Format>image/png</Format>
+        <Format>image/geotiff</Format>
+        <Format>image/geotiff8</Format>
+        <Format>image/jpeg</Format>
+        <Format>image/png; mode=8bit</Format>
+        <Format>image/vnd.jpeg-png</Format>
+        <Format>image/vnd.jpeg-png8</Format>
+        <Format>text/html; subtype=openlayers</Format>
+        <Format>text/html; subtype=openlayers3</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:type="simple" xlink:href="https://servpub.madrid.es/georaster/ORTOFOTOS/ORTOFOTO_MADRID/ows?SERVICE=WMS&amp;"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </GetMap>
+      <GetFeatureInfo>
+        <Format>text/plain</Format>
+        <Format>text/html</Format>
+        <Format>application/json</Format>
+        <Format>application/vnd.ogc.gml</Format>
+        <Format>text/xml</Format>
+        <Format>application/vnd.ogc.gml/3.1.1</Format>
+        <Format>text/xml; subtype=gml/3.1.1</Format>
+        <DCPType>
+          <HTTP>
+            <Get>
+              <OnlineResource xlink:type="simple" xlink:href="https://servpub.madrid.es/georaster/ORTOFOTOS/ORTOFOTO_MADRID/ows?SERVICE=WMS&amp;"/>
+            </Get>
+          </HTTP>
+        </DCPType>
+      </GetFeatureInfo>
+    </Request>
+    <Exception>
+      <Format>XML</Format>
+      <Format>INIMAGE</Format>
+      <Format>BLANK</Format>
+      <Format>JSON</Format>
+    </Exception>
+    <Layer queryable="0">
+      <Name>ORTOFOTO_MADRID</Name>
+      <Title>ORTOFOTO_MADRID</Title>
+      <Abstract/>
+      <KeywordList/>
+      <!--Limited list of EPSG projections:-->
+      <CRS>EPSG:3857</CRS>
+      <CRS>EPSG:25830</CRS>
+      <CRS>CRS:84</CRS>
+      <EX_GeographicBoundingBox>
+        <westBoundLongitude>-3.9366578000995993</westBoundLongitude>
+        <eastBoundLongitude>-3.4793053869281922</eastBoundLongitude>
+        <southBoundLatitude>40.27881291777003</southBoundLatitude>
+        <northBoundLatitude>40.667018245977765</northBoundLatitude>
+      </EX_GeographicBoundingBox>
+      <BoundingBox CRS="CRS:84" minx="-3.9366578000995993" miny="40.27881291777003" maxx="-3.4793053869281922" maxy="40.667018245977765"/>
+      <BoundingBox CRS="EPSG:3857" minx="-438226.7417344559" miny="4906541.71820539" maxx="-387314.50398714" maxy="4963350.303242877"/>
+      <Style>
+        <Name>default-style-ORTOFOTO_MADRID</Name>
+        <Title>ORTOFOTO_MADRID style</Title>
+        <Abstract>Default style for ORTOFOTO_MADRID layer</Abstract>
+        <LegendURL width="20" height="20">
+          <Format>image/png</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://servpub.madrid.es/georaster/ORTOFOTOS/ORTOFOTO_MADRID/ows?service=WMS&amp;version=1.3.0&amp;request=GetLegendGraphic&amp;format=image%2Fpng&amp;width=20&amp;height=20&amp;layer=ORTOFOTO_MADRID"/>
+        </LegendURL>
+      </Style>
+    </Layer>
+  </Capability>
+</WMS_Capabilities>

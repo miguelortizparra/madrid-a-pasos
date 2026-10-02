@@ -1,0 +1,20 @@
+[
+  {
+    "COD_SEC": "10100",
+    "n_muestra_desplazada": 40,
+    "cob150_desplazada": 0.0,
+    "cob200_desplazada": 17.5
+  },
+  {
+    "COD_SEC": "08152",
+    "n_muestra_desplazada": 147,
+    "cob150_desplazada": 14.965986394557824,
+    "cob200_desplazada": 40.136054421768705
+  },
+  {
+    "COD_SEC": "08007",
+    "n_muestra_desplazada": 193,
+    "cob150_desplazada": 24.870466321243523,
+    "cob200_desplazada": 41.45077720207254
+  }
+]
